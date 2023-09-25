@@ -8,5 +8,6 @@ import (
 func Router() *gin.Engine {
 	r := gin.Default()
 	r.GET("/ping", service.Ping)
+	r.POST("/user", service.CreateUser)
 	return r
 }

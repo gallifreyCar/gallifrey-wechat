@@ -47,7 +47,7 @@ func CreateTable() error {
 	return DB.AutoMigrate(&models.UserBasic{})
 }
 
-// InsertUser 插入用户
-func InsertUser(user *models.UserBasic) *gorm.DB {
+// CreateUser 插入用户
+func CreateUser(user *models.UserBasic) *gorm.DB {
 	return DB.Create(user)
 }
