@@ -51,3 +51,23 @@ func CreateTable() error {
 func CreateUser(user *models.UserBasic) *gorm.DB {
 	return DB.Create(user)
 }
+
+// UpdateUser 更新用户
+func UpdateUser(user *models.UserBasic) *gorm.DB {
+	return DB.Model(&user).Updates(user)
+}
+
+// DeleteUser 删除用户
+func DeleteUser(user *models.UserBasic) *gorm.DB {
+	return DB.Delete(&user)
+}
+
+// GetUser 获取用户
+func GetUser(user *models.UserBasic) *gorm.DB {
+	return DB.Table("user_basic").First(&user)
+}
+
+// GetUsers 获取所有用户
+func GetUsers(users *[]models.UserBasic) *gorm.DB {
+	return DB.Table("user_basic").Find(&users)
+}

@@ -7,6 +7,10 @@ import (
 
 type UserBasic struct {
 	gorm.Model
+	User
+}
+
+type User struct {
 	Name          string
 	Password      string
 	Phone         string
@@ -14,9 +18,9 @@ type UserBasic struct {
 	Identity      string
 	ClientIP      string
 	ClientPort    string
-	LoginTime     time.Time
-	HeartbeatTime time.Time
-	LogoutTime    time.Time
+	LoginTime     *time.Time
+	HeartbeatTime *time.Time
+	LogoutTime    *time.Time
 	isLogout      bool
 	DeviceInfo    string
 }
