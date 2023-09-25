@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"fmt"
@@ -12,7 +12,9 @@ import (
 	"time"
 )
 
-func main() {
+var DB *gorm.DB
+
+func InitDB() error {
 	// 数据库配置
 	cfg := utils.ReadMySQLConfig("config")
 	fmt.Println(cfg)
@@ -32,9 +34,20 @@ func main() {
 		Logger: mysqlLogger,
 	})
 	if err != nil {
-		panic("failed to connect database")
+		return err
 	}
-	// 迁移 schema
-	db.AutoMigrate(&models.UserBasic{})
 
+	DB = db
+	return nil
+}
+
+// CreateTable 表不存在时创建表
+func CreateTable() error {
+	// 迁移 schema
+	return DB.AutoMigrate(&models.UserBasic{})
+}
+
+// InsertUser 插入用户
+func InsertUser(user *models.UserBasic) *gorm.DB {
+	return DB.Create(user)
 }
