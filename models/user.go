@@ -7,16 +7,12 @@ import (
 
 type UserBasic struct {
 	gorm.Model
-	User
-}
-
-type User struct {
-	Name          string
-	Password      string
-	Phone         string
-	Email         string
+	Name          string `validate:"required"` //校验用户名非空
+	Password      string `validate:"required"` //校验密码
+	Phone         string //`validate:"max=11,min=11,numeric"` //校验手机号
+	Email         string //`validate:"email"`                 //校验邮箱号
 	Identity      string
-	ClientIP      string
+	ClientIP      string //`validate:"ip"`
 	ClientPort    string
 	LoginTime     *time.Time
 	HeartbeatTime *time.Time
