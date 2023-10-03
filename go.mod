@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.14.0
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/gorilla/websocket v1.5.0
 	github.com/redis/go-redis/v9 v9.2.1
 	github.com/spf13/viper v1.16.0
 	gorm.io/driver/mysql v1.5.1

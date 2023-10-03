@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gallifreyCar/gallifrey-wechat/models"
 	"github.com/gallifreyCar/gallifrey-wechat/service"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"net/http"
 )
 
 type UserController struct {
@@ -61,4 +64,40 @@ func (u *UserController) GetUsers(c *gin.Context) {
 		return
 	}
 	c.JSONP(200, gin.H{"message": "success", "data": users})
+}
+
+var wsUP = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true // 允许跨域
+	},
+}
+
+func (u *UserController) SendMsg(c *gin.Context) {
+	// 升级webSocket协议
+	ws, err := wsUP.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// 关闭连接
+	defer func(ws *websocket.Conn) {
+		err := ws.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}(ws)
+
+	// 读取ws中的数据
+	//subscribe, err := redis.Subscribe(c, redis.Ws)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	err = ws.WriteMessage(websocket.TextMessage, []byte("hello world"))
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 }

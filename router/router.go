@@ -15,6 +15,7 @@ func Router() *gin.Engine {
 		ug.DELETE("/delete/:id", controller.UserCtrl.DeleteUser)
 		ug.GET("/get/:id", controller.UserCtrl.GetUserByID)
 		ug.GET("/gets", controller.UserCtrl.GetUsers)
+		ug.GET("/ws", controller.UserCtrl.SendMsg)
 	}
 	return r
 }
