@@ -72,7 +72,7 @@ var wsUP = websocket.Upgrader{
 	},
 }
 
-func (u *UserController) SendMsg(c *gin.Context) {
+func (u *UserController) Chat(c *gin.Context) {
 	// 升级webSocket协议
 	ws, err := wsUP.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -87,17 +87,26 @@ func (u *UserController) SendMsg(c *gin.Context) {
 		}
 	}(ws)
 
-	// 读取ws中的数据
 	//subscribe, err := redis.Subscribe(c, redis.Ws)
 	//if err != nil {
 	//	fmt.Println(err)
 	//	return
 	//}
-	err = ws.WriteMessage(websocket.TextMessage, []byte("hello world"))
+	for {
+		// 读取数据
+		msgType, msg, err := ws.ReadMessage()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
-	if err != nil {
-		fmt.Println(err)
-		return
+		// 返回数据
+		err = ws.WriteMessage(msgType, msg)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
 	}
 
 }
