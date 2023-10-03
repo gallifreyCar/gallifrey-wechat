@@ -9,7 +9,7 @@ import "github.com/spf13/viper"
 
 // ReadMySQLConfig 根据配置文件读取mysql配置
 func ReadMySQLConfig(filePath string) string {
-	viper.SetConfigName("mysql")
+	viper.SetConfigName("config")
 	viper.AddConfigPath(filePath)
 	err := viper.ReadInConfig()
 	if err != nil {

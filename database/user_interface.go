@@ -6,8 +6,6 @@ import (
 )
 
 type UserDB interface {
-	// CreateTable 表不存在时创建表
-	CreateTable() error
 
 	// CreateUser 插入用户
 	CreateUser(user *models.UserBasic) *gorm.DB

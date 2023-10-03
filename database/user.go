@@ -9,12 +9,6 @@ type UserDao struct{}
 
 func NewUserDao() *UserDao { return &UserDao{} }
 
-// CreateTable 表不存在时创建表
-func (u *UserDao) CreateTable() error {
-	// 迁移 schema
-	return DB.AutoMigrate(&models.UserBasic{})
-}
-
 // CreateUser 插入用户
 func (u *UserDao) CreateUser(user *models.UserBasic) *gorm.DB {
 	return DB.Create(user)
@@ -27,7 +21,7 @@ func (u *UserDao) UpdateUser(user *models.UserBasic) *gorm.DB {
 
 // DeleteUser 删除用户
 func (u *UserDao) DeleteUser(user *models.UserBasic) *gorm.DB {
-	return DB.Where("name = ?", user.Name).Delete(&user)
+	return DB.Where("identity = ?", user.Identity).Delete(&user)
 }
 
 // GetUser 获取用户

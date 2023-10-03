@@ -12,7 +12,7 @@ func Router() *gin.Engine {
 	{
 		ug.POST("/create", controller.UserCtrl.CreateUser)
 		ug.PUT("/update", controller.UserCtrl.UpdateUser)
-		ug.DELETE("/delete/:username", controller.UserCtrl.DeleteUser)
+		ug.DELETE("/delete/:id", controller.UserCtrl.DeleteUser)
 		ug.GET("/get/:id", controller.UserCtrl.GetUserByID)
 		ug.GET("/gets", controller.UserCtrl.GetUsers)
 	}

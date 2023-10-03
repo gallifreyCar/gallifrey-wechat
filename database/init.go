@@ -38,4 +38,5 @@ func Init() error {
 
 	DB = db
 	return nil
+
 }

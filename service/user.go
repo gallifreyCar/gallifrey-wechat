@@ -4,8 +4,15 @@ import (
 	"fmt"
 	"github.com/gallifreyCar/gallifrey-wechat/database"
 	"github.com/gallifreyCar/gallifrey-wechat/models"
+	"github.com/gallifreyCar/gallifrey-wechat/utils"
 	"github.com/go-playground/validator/v10"
 )
+
+var validate *validator.Validate
+
+func InitValidator() {
+	validate = validator.New()
+}
 
 type UserService struct {
 	db database.UserDB
@@ -22,8 +29,13 @@ func (s *UserService) CreateUser(user *models.UserBasic) error {
 	}
 	// 检查用户是否存在
 	if _, err := s.GetUserByUsername(user.Name); err == nil {
-		return fmt.Errorf("user already exists")
+		return fmt.Errorf("username already exists")
 	}
+	// 密码加密+盐
+	salt := utils.RandomSalt()
+	user.Salt = salt
+	user.Password = utils.Md5Encode(user.Password + salt)
+
 	// 创建用户
 	if s.db.CreateUser(user).RowsAffected == 0 {
 		return fmt.Errorf("create failed")
@@ -60,7 +72,8 @@ func (s *UserService) UpdateUser(id, username, password string) error {
 	user.Password = password
 
 	//校验
-	err := validator.New().Struct(user)
+	err := validate.Var(user.Name, "required")
+	err = validate.Var(user.Password, "required")
 	if err != nil {
 		return err
 	}

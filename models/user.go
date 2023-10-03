@@ -19,6 +19,7 @@ type UserBasic struct {
 	LogoutTime    *time.Time
 	isLogout      bool
 	DeviceInfo    string
+	Salt          string
 }
 
 func (table *UserBasic) TableName() string {
