@@ -1,8 +1,9 @@
-package controller
+package v1
 
 import (
 	"fmt"
 	"github.com/gallifreyCar/gallifrey-wechat/models"
+	"github.com/gallifreyCar/gallifrey-wechat/server"
 	"github.com/gallifreyCar/gallifrey-wechat/service"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -79,34 +80,16 @@ func (u *UserController) Chat(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	// 关闭连接
-	defer func(ws *websocket.Conn) {
-		err := ws.Close()
-		if err != nil {
-			fmt.Println(err)
-		}
-	}(ws)
 
-	//subscribe, err := redis.Subscribe(c, redis.Ws)
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	for {
-		// 读取数据
-		msgType, msg, err := ws.ReadMessage()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		// 返回数据
-		err = ws.WriteMessage(msgType, msg)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
+	client := &server.Client{
+		Name:      "test",
+		Conn:      ws,
+		DataQueue: make(chan []byte),
 	}
+
+	// 读取数据
+	go client.Read()
+	// 发送数据
+	go client.Write()
 
 }
