@@ -80,12 +80,14 @@ func (u *UserController) Chat(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-
+	name := c.Query("name")
 	client := &server.Client{
-		Name:      "test",
+		Name:      name,
 		Conn:      ws,
 		DataQueue: make(chan []byte),
 	}
+
+	server.MyServer.Clients[name] = client
 
 	// 读取数据
 	go client.Read()

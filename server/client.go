@@ -25,7 +25,17 @@ func (c *Client) Read() {
 			c.Conn.Close()
 			break
 		}
+		if string(message) == "ping" {
+			MyServer.Broadcast <- []byte("pong")
+			continue
+		}
+		if string(message) == "test" {
+			targetClient := MyServer.Clients["test01"]
+			targetClient.DataQueue <- []byte("test single send")
+			continue
+		}
 
+		// 将消息发送到广播通道
 		MyServer.Broadcast <- message
 
 	}
@@ -39,6 +49,13 @@ func (c *Client) Write() {
 	for {
 
 		select {
+		case message := <-c.DataQueue:
+			err := c.Conn.WriteMessage(websocket.TextMessage, message)
+			if err != nil {
+				MyServer.Unregister <- c
+				c.Conn.Close()
+				break
+			}
 		case message := <-MyServer.Broadcast:
 			err := c.Conn.WriteMessage(websocket.TextMessage, message)
 			if err != nil {
