@@ -8,7 +8,7 @@ import (
 func Router() *gin.Engine {
 
 	r := gin.Default()
-	ug := r.Group("/user")
+	ug := r.Group("/api/v1")
 	{
 		ug.POST("/create", v1.UserCtrl.CreateUser)
 		ug.PUT("/update", v1.UserCtrl.UpdateUser)
@@ -18,4 +18,13 @@ func Router() *gin.Engine {
 		ug.GET("/ws", v1.UserCtrl.Chat)
 	}
 	return r
+}
+
+func Handle404Route(r *gin.Engine) {
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{
+			"code":    "404",
+			"message": "路由不存在,请检查请求方法和请求路径",
+		})
+	})
 }

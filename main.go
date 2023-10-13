@@ -3,9 +3,10 @@ package main
 import (
 	"github.com/gallifreyCar/gallifrey-wechat/database"
 	"github.com/gallifreyCar/gallifrey-wechat/http/controller/v1"
+	"github.com/gallifreyCar/gallifrey-wechat/initialize"
 	"github.com/gallifreyCar/gallifrey-wechat/redis"
-	"github.com/gallifreyCar/gallifrey-wechat/router"
 	"github.com/gallifreyCar/gallifrey-wechat/service"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -20,6 +21,8 @@ func main() {
 	// 初始化Redis
 	redis.InitRedis()
 
-	r := router.Router()
+	// 启动路由
+	r := gin.New()
+	initialize.InitRoute(r)
 	r.Run()
 }
