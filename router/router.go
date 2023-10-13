@@ -1,22 +1,32 @@
 package router
 
 import (
-	"github.com/gallifreyCar/gallifrey-wechat/http/controller/v1"
+	v1 "github.com/gallifreyCar/gallifrey-wechat/http/controller/v1"
 	"github.com/gin-gonic/gin"
 )
 
-func Router() *gin.Engine {
+func Router(r *gin.Engine) *gin.Engine {
 
-	r := gin.Default()
-	ug := r.Group("/api/v1")
+	v1ApiGroup := r.Group("/api/v1")
 	{
-		ug.POST("/create", v1.UserCtrl.CreateUser)
-		ug.PUT("/update", v1.UserCtrl.UpdateUser)
-		ug.DELETE("/delete/:id", v1.UserCtrl.DeleteUser)
-		ug.GET("/get/:id", v1.UserCtrl.GetUserByID)
-		ug.GET("/gets", v1.UserCtrl.GetUsers)
-		ug.GET("/ws", v1.UserCtrl.Chat)
+		authGroup := v1ApiGroup.Group("/auth")
+		{
+			authGroup.POST("/signup/email/exist", v1.AuthCtrl.IsEmailExist)
+			authGroup.POST("/signup/phone/exist", v1.AuthCtrl.IsPhoneExist)
+		}
+
+		userGroup := v1ApiGroup.Group("/user")
+		{
+
+			userGroup.POST("/create", v1.UserCtrl.CreateUser)
+			userGroup.PUT("/update", v1.UserCtrl.UpdateUser)
+			userGroup.DELETE("/delete/:id", v1.UserCtrl.DeleteUser)
+			userGroup.GET("/get/:id", v1.UserCtrl.GetUserByID)
+			userGroup.GET("/gets", v1.UserCtrl.GetUsers)
+			userGroup.GET("/ws", v1.UserCtrl.Chat)
+		}
 	}
+
 	return r
 }
 

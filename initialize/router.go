@@ -10,7 +10,7 @@ func InitRoute(r *gin.Engine) {
 	//注册全局中间件
 	registerGlobalMiddleware(r)
 	//注册API路由
-	router.Router()
+	router.Router(r)
 	//404处理
 	router.Handle404Route(r)
 }

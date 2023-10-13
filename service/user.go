@@ -15,11 +15,7 @@ func InitValidator() {
 }
 
 type UserService struct {
-	db database.UserDB
-}
-
-func NewUserService() *UserService {
-	return &UserService{db: database.NewUserDao()}
+	Db database.UserDB
 }
 
 func (s *UserService) CreateUser(user *models.UserBasic) error {
@@ -37,7 +33,7 @@ func (s *UserService) CreateUser(user *models.UserBasic) error {
 	user.Password = utils.Md5Encode(user.Password + salt)
 
 	// 创建用户
-	if s.db.CreateUser(user).RowsAffected == 0 {
+	if s.Db.CreateUser(user).RowsAffected == 0 {
 		return fmt.Errorf("create failed")
 	}
 	return nil
@@ -45,7 +41,7 @@ func (s *UserService) CreateUser(user *models.UserBasic) error {
 
 func (s *UserService) GetUserByUsername(username string) (*models.UserBasic, error) {
 	user := models.UserBasic{Name: username}
-	if s.db.GetUser(&user).RowsAffected == 0 {
+	if s.Db.GetUser(&user).RowsAffected == 0 {
 		return nil, fmt.Errorf("user not exists")
 	}
 
@@ -54,7 +50,7 @@ func (s *UserService) GetUserByUsername(username string) (*models.UserBasic, err
 
 func (s *UserService) GetUserByID(id string) (*models.UserBasic, error) {
 	user := models.UserBasic{Identity: id}
-	if s.db.GetUser(&user).RowsAffected == 0 {
+	if s.Db.GetUser(&user).RowsAffected == 0 {
 		return nil, fmt.Errorf("user not exists")
 	}
 	return &user, nil
@@ -63,7 +59,7 @@ func (s *UserService) GetUserByID(id string) (*models.UserBasic, error) {
 func (s *UserService) UpdateUser(id, username, password string) error {
 	// 查询用户
 	user := models.UserBasic{Identity: id}
-	if s.db.GetUser(&user).RowsAffected == 0 {
+	if s.Db.GetUser(&user).RowsAffected == 0 {
 		return fmt.Errorf("user not exists")
 	}
 
@@ -78,7 +74,7 @@ func (s *UserService) UpdateUser(id, username, password string) error {
 		return err
 	}
 
-	if s.db.UpdateUser(&user).RowsAffected == 0 {
+	if s.Db.UpdateUser(&user).RowsAffected == 0 {
 		return fmt.Errorf("update failed")
 	}
 
@@ -87,7 +83,7 @@ func (s *UserService) UpdateUser(id, username, password string) error {
 
 func (s *UserService) DeleteUser(id string) error {
 	user := models.UserBasic{Identity: id}
-	if s.db.DeleteUser(&user).RowsAffected == 0 {
+	if s.Db.DeleteUser(&user).RowsAffected == 0 {
 		return fmt.Errorf("delete failed")
 	}
 	return nil
@@ -95,6 +91,6 @@ func (s *UserService) DeleteUser(id string) error {
 
 func (s *UserService) GetUsers() (*[]models.UserBasic, error) {
 	var users []models.UserBasic
-	s.db.GetUsers(&users)
+	s.Db.GetUsers(&users)
 	return &users, nil
 }
