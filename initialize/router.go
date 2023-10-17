@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"github.com/gallifreyCar/gallifrey-wechat/http/middleware"
 	"github.com/gallifreyCar/gallifrey-wechat/router"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ func InitRoute(r *gin.Engine) {
 // registerGlobalMiddleware 注册全局中间件
 func registerGlobalMiddleware(r *gin.Engine) {
 	r.Use(
-		gin.Logger(),
+		middleware.Logger(),
 		gin.Recovery(),
 	)
 }

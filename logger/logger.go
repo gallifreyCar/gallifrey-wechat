@@ -43,18 +43,18 @@ func InitLogger(maxSize, maxBackup, maxAge int, compress bool, level string) {
 // 获取日志格式
 func getEncoderConfig() zapcore.EncoderConfig {
 	return zapcore.EncoderConfig{
-		TimeKey:        "time",                           // 时间格式
-		LevelKey:       "level",                          // 日志级别
-		NameKey:        "logger",                         // 日志名称
-		CallerKey:      "caller",                         // 代码调用，如 paginator/paginator.go:148
-		FunctionKey:    zapcore.OmitKey,                  // 函数名称
-		MessageKey:     "message",                        // 日志信息
-		StacktraceKey:  "stacktrace",                     // 堆栈信息
-		LineEnding:     zapcore.DefaultLineEnding,        // 每行日志的结尾添加 "\n"
-		EncodeLevel:    zapcore.CapitalColorLevelEncoder, // 日志级别名称大写,并且添加颜色
-		EncodeTime:     zapcore.ISO8601TimeEncoder,       // 时间格式
-		EncodeDuration: zapcore.SecondsDurationEncoder,   // 时间格式
-		EncodeCaller:   zapcore.ShortCallerEncoder,       // 调用文件和行号，内部使用 runtime.Caller
+		TimeKey:        "time",                         // 时间格式
+		LevelKey:       "level",                        // 日志级别
+		NameKey:        "logger",                       // 日志名称
+		CallerKey:      "caller",                       // 代码调用，如 paginator/paginator.go:148
+		FunctionKey:    zapcore.OmitKey,                // 函数名称
+		MessageKey:     "message",                      // 日志信息
+		StacktraceKey:  "stacktrace",                   // 堆栈信息
+		LineEnding:     zapcore.DefaultLineEnding,      // 每行日志的结尾添加 "\n"
+		EncodeLevel:    zapcore.CapitalLevelEncoder,    // 日志级别名称大写,并且添加颜色
+		EncodeTime:     zapcore.ISO8601TimeEncoder,     // 时间格式
+		EncodeDuration: zapcore.SecondsDurationEncoder, // 时间格式
+		EncodeCaller:   zapcore.ShortCallerEncoder,     // 调用文件和行号，内部使用 runtime.Caller
 	}
 }
 

@@ -22,5 +22,6 @@ func main() {
 	// 启动路由
 	r := gin.New()
 	initialize.InitRoute(r)
+	gin.SetMode(gin.ReleaseMode)
 	r.Run()
 }
