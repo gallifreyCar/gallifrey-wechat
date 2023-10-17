@@ -10,6 +10,7 @@ import (
 
 func main() {
 	initialize.InitDB()
+	initialize.InitLogger()
 
 	// 初始化控制器
 	v1.Init()
