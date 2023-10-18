@@ -6,6 +6,7 @@ import (
 	"github.com/gallifreyCar/gallifrey-wechat/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	gormLogger "gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -27,7 +28,7 @@ func Init() error {
 
 	// 连接数据库
 	db, err := gorm.Open(mysql.Open(cfg), &gorm.Config{
-		Logger: logger.NewGormLogger(),
+		Logger: logger.NewGormLogger(gormLogger.Info),
 	})
 	if err != nil {
 		return err

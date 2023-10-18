@@ -17,10 +17,13 @@ var _ gormLogger.Interface = (*GormLogger)(nil)
 type GormLogger struct {
 	zapLogger  *zap.Logger
 	ShowThread time.Duration
+	logLevel   gormLogger.LogLevel
 }
 
-func NewGormLogger() *GormLogger {
+func NewGormLogger(level gormLogger.LogLevel) *GormLogger {
+
 	return &GormLogger{
+		logLevel:   level,
 		zapLogger:  Logger,
 		ShowThread: 200 * time.Millisecond, //慢查询阈值 默认200ms
 	}
@@ -30,18 +33,29 @@ func (g GormLogger) LogMode(level gormLogger.LogLevel) gormLogger.Interface {
 	return GormLogger{
 		zapLogger:  g.zapLogger,
 		ShowThread: g.ShowThread,
+		logLevel:   level,
 	}
 }
 
 func (g GormLogger) Info(ctx context.Context, s string, i ...interface{}) {
+	if g.logLevel < gormLogger.Info {
+		return
+	}
+
 	g.logger().Sugar().Infof(s, i...)
 }
 
 func (g GormLogger) Warn(ctx context.Context, s string, i ...interface{}) {
+	if g.logLevel < gormLogger.Warn {
+		return
+	}
 	g.logger().Sugar().Warnf(s, i...)
 }
 
 func (g GormLogger) Error(ctx context.Context, s string, i ...interface{}) {
+	if g.logLevel < gormLogger.Error {
+		return
+	}
 	g.logger().Sugar().Errorf(s, i...)
 }
 
