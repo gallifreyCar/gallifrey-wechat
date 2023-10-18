@@ -25,6 +25,11 @@ func Router(r *gin.Engine) *gin.Engine {
 			userGroup.GET("/gets", v1.UserCtrl.GetUsers)
 			userGroup.GET("/ws", v1.UserCtrl.Chat)
 		}
+
+		testGroup := v1ApiGroup.Group("/test")
+		{
+			testGroup.GET("/panic", v1.AuthCtrl.TestPanics)
+		}
 	}
 
 	return r

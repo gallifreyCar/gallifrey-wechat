@@ -44,3 +44,8 @@ func (a *AuthController) IsPhoneExist(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"exist": a.Service.IsPhoneExist(phone.Phone)})
 }
+
+// TestPanics 测试panic
+func (a *AuthController) TestPanics(c *gin.Context) {
+	panic("test panic")
+}
