@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	initialize.InitDB()
+	//必须先初始化logger，再初始化数据库
 	initialize.InitLogger()
-
+	initialize.InitDB()
 	// 初始化控制器
 	v1.Init()
 	// 初始化验证器
