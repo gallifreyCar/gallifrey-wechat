@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/gallifreyCar/gallifrey-wechat/logger"
+	"github.com/gallifreyCar/gallifrey-wechat/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"go.uber.org/zap"

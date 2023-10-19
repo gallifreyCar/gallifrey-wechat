@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"github.com/gallifreyCar/gallifrey-wechat/config"
-	"github.com/gallifreyCar/gallifrey-wechat/logger"
+	"github.com/gallifreyCar/gallifrey-wechat/pkg/logger"
 )
 
 func InitLogger() {

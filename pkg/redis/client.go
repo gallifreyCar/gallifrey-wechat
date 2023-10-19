@@ -1,6 +1,8 @@
 package redis
 
-import "context"
+import (
+	"context"
+)
 
 const Ws = "websocket"
 

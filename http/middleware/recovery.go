@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"errors"
-	"github.com/gallifreyCar/gallifrey-wechat/logger"
+	"github.com/gallifreyCar/gallifrey-wechat/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http/httputil"

@@ -20,7 +20,7 @@ type GormLogger struct {
 	logLevel   gormLogger.LogLevel
 }
 
-func NewGormLogger(level gormLogger.LogLevel) *GormLogger {
+func NewGormLogger(Logger *zap.Logger, level gormLogger.LogLevel) *GormLogger {
 
 	return &GormLogger{
 		logLevel:   level,
